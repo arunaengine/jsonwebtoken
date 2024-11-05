@@ -193,7 +193,8 @@ impl DecodingKey {
         }
     }
 
-    pub(crate) fn as_bytes(&self) -> &[u8] {
+    /// Get the bytes of the key
+    pub fn as_bytes(&self) -> &[u8] {
         match &self.kind {
             DecodingKeyKind::SecretOrDer(b) => b,
             DecodingKeyKind::RsaModulusExponent { .. } => unreachable!(),

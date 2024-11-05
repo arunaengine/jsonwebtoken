@@ -91,7 +91,8 @@ impl EncodingKey {
         EncodingKey { family: AlgorithmFamily::Ed, content: der.to_vec() }
     }
 
-    pub(crate) fn inner(&self) -> &[u8] {
+    /// Get the inner content of the key
+    pub fn as_bytes(&self) -> &[u8] {
         &self.content
     }
 }

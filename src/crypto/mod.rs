@@ -24,22 +24,22 @@ pub(crate) fn sign_hmac(alg: hmac::Algorithm, key: &[u8], message: &[u8]) -> Str
 /// If you just want to encode a JWT, use `encode` instead.
 pub fn sign(message: &[u8], key: &EncodingKey, algorithm: Algorithm) -> Result<String> {
     match algorithm {
-        Algorithm::HS256 => Ok(sign_hmac(hmac::HMAC_SHA256, key.inner(), message)),
-        Algorithm::HS384 => Ok(sign_hmac(hmac::HMAC_SHA384, key.inner(), message)),
-        Algorithm::HS512 => Ok(sign_hmac(hmac::HMAC_SHA512, key.inner(), message)),
+        Algorithm::HS256 => Ok(sign_hmac(hmac::HMAC_SHA256, key.as_bytes(), message)),
+        Algorithm::HS384 => Ok(sign_hmac(hmac::HMAC_SHA384, key.as_bytes(), message)),
+        Algorithm::HS512 => Ok(sign_hmac(hmac::HMAC_SHA512, key.as_bytes(), message)),
 
         Algorithm::ES256 | Algorithm::ES384 => {
-            ecdsa::sign(ecdsa::alg_to_ec_signing(algorithm), key.inner(), message)
+            ecdsa::sign(ecdsa::alg_to_ec_signing(algorithm), key.as_bytes(), message)
         }
 
-        Algorithm::EdDSA => eddsa::sign(key.inner(), message),
+        Algorithm::EdDSA => eddsa::sign(key.as_bytes(), message),
 
         Algorithm::RS256
         | Algorithm::RS384
         | Algorithm::RS512
         | Algorithm::PS256
         | Algorithm::PS384
-        | Algorithm::PS512 => rsa::sign(rsa::alg_to_rsa_signing(algorithm), key.inner(), message),
+        | Algorithm::PS512 => rsa::sign(rsa::alg_to_rsa_signing(algorithm), key.as_bytes(), message),
     }
 }
 
