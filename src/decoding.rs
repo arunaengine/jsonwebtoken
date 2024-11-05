@@ -1,5 +1,6 @@
 use base64::{engine::general_purpose::STANDARD, Engine};
 use serde::de::DeserializeOwned;
+use serde::{Deserialize, Serialize};
 
 use crate::algorithms::AlgorithmFamily;
 use crate::crypto::verify;
@@ -41,7 +42,7 @@ macro_rules! expect_two {
     }};
 }
 
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize)]
 pub(crate) enum DecodingKeyKind {
     SecretOrDer(Vec<u8>),
     RsaModulusExponent { n: Vec<u8>, e: Vec<u8> },
@@ -49,7 +50,7 @@ pub(crate) enum DecodingKeyKind {
 
 /// All the different kind of keys we can use to decode a JWT.
 /// This key can be re-used so make sure you only initialize it once if you can for better performance.
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct DecodingKey {
     pub(crate) family: AlgorithmFamily,
     pub(crate) kind: DecodingKeyKind,
