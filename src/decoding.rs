@@ -42,7 +42,7 @@ macro_rules! expect_two {
     }};
 }
 
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone, PartialEq, Serialize, Deserialize)]
 pub(crate) enum DecodingKeyKind {
     SecretOrDer(Vec<u8>),
     RsaModulusExponent { n: Vec<u8>, e: Vec<u8> },
@@ -50,7 +50,7 @@ pub(crate) enum DecodingKeyKind {
 
 /// All the different kind of keys we can use to decode a JWT.
 /// This key can be re-used so make sure you only initialize it once if you can for better performance.
-#[derive(Clone, Serialize, Deserialize)]
+#[derive(Clone, PartialEq, Serialize, Deserialize)]
 pub struct DecodingKey {
     pub(crate) family: AlgorithmFamily,
     pub(crate) kind: DecodingKeyKind,
